@@ -85,7 +85,7 @@ contract SimpleWallet {
      * @return {Boolean}
      */
     function isAllowedToSend(address _address) constant returns (bool) {
-      return isAllowedToSendFundsMapping[_address] || (msg.sender == owner);
+      return isAllowedToSendFundsMapping[_address] || (_address == owner);
     }
 
     /**
