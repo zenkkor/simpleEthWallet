@@ -73,6 +73,25 @@ contract SimpleWallet {
 
     }
 
+	/**
+	 * Returns the number of sends for a single address
+	 * @param _address The address of the account
+	 * @return uint balance
+	 */
+	function getAmountOfWithdrawals(address _address) constant returns (uint) {
+		return isAllowedToSendFundsMapping[_address].amount_sends;
+	}
+
+	/**
+	 * Returns a single address tupple history of withdrawals
+	 * @param  _address address
+	 * @param  index uint
+	 * @return (address, uint)
+	 */
+	function getWithdrawalForAddress(address _address, uint index) constant returns (address, uint) {
+		return (isAllowedToSendFundsMapping[_address].withdrawals[index].to, isAllowedToSendFundsMapping[_address].withdrawals[index].amount);
+	}
+
     /**
      * Add new address to send funds mapping
      * @param _address The address that is allowed to send money from the wallet
