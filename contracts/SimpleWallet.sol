@@ -22,8 +22,7 @@ contract SimpleWallet {
      */
     function() {
 
-      if ( msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender] == true) )
-      {
+      if ( msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender] == true) ) {
         Deposit(msg.sender, msg.value);
       }
       else {
@@ -45,7 +44,7 @@ contract SimpleWallet {
 
         if ( this.balance >= amount )
         {
-          if ( !recivee.send(amount) ) {
+          if ( !receiver.send(amount) ) {
             throw;
           }
 
@@ -88,7 +87,7 @@ contract SimpleWallet {
      * @param  {[type]}  address [description]
      * @return {Boolean}         [description]
      */
-    function isAllowedToSend(address _address) constant retnrs (bool) {
+    function isAllowedToSend(address _address) constant returns (bool) {
       return isAllowedToSendFundsMapping[_address] || (msg.sender == owner);
     }
 
