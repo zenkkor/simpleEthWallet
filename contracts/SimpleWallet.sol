@@ -18,7 +18,6 @@ contract SimpleWallet {
     /**
      * Anonymous function for when contract recieves funds or is called
      * without any funds and without function
-     * @return {[type]} [description]
      */
     function() {
 
@@ -33,9 +32,9 @@ contract SimpleWallet {
 
     /**
      * Sends funds if balance is high enough
-     * @param  {[type]} uint    [description]
-     * @param  {[type]} address [description]
-     * @return {[type]}         [description]
+     * @param amount The amount that is to be sent
+     * @param receiver The receiving account
+     * @return uint balance
      */
     function sendFunds(uint amount, address receiver) returns (uint) {
 
@@ -58,8 +57,7 @@ contract SimpleWallet {
 
     /**
      * Add new address to send funds mapping
-     * @param  {[type]} address [description]
-     * @return {[type]}         [description]
+     * @param _address The address that is allowed to send money from the wallet
      */
     function allowAddressToSendMoney(address _address) {
 
@@ -71,8 +69,7 @@ contract SimpleWallet {
 
     /**
      * Dissalow address to send funds
-     * @param  {[type]} address [description]
-     * @return {[type]}         [description]
+     * @param _address the address that is !allowed to send money from the wallet
      */
     function disallowAddressToSendMoney(address _address) {
 
@@ -84,8 +81,8 @@ contract SimpleWallet {
 
     /**
      * Return if is allowed to send funds
-     * @param  {[type]}  address [description]
-     * @return {Boolean}         [description]
+     * @param _address the address that needs the state allowed/dissal
+     * @return {Boolean}
      */
     function isAllowedToSend(address _address) constant returns (bool) {
       return isAllowedToSendFundsMapping[_address] || (msg.sender == owner);
@@ -94,7 +91,6 @@ contract SimpleWallet {
     /**
      * Kills the wallet, yo.
      * Only allows this for the owner
-     * @return {[type]} [description]
      */
     function killWallet() {
       if ( msg.sender == owner )
