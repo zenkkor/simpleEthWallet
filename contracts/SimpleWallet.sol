@@ -21,7 +21,7 @@ contract SimpleWallet {
      */
     function() payable {
 
-      if ( msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender] == true) ) {
+      if ( hasWalletPermission() ) {
         Deposit(msg.sender, msg.value);
       }
       else {
@@ -38,7 +38,7 @@ contract SimpleWallet {
      */
     function sendFunds(uint amount, address receiver) returns (uint) {
 
-      if (  msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender] == true) )
+      if ( hasWalletPermission() )
       {
 
         if ( this.balance >= amount )
@@ -77,6 +77,14 @@ contract SimpleWallet {
         isAllowedToSendFundsMapping[_address] = false;
       }
 
+    }
+
+    /**
+     * Just a helper function
+     * @return {Boolean}
+     */
+    function hasWalletPermission() private returns (bool){
+      return (msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender] == true));
     }
 
     /**
