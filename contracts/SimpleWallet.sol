@@ -19,7 +19,7 @@ contract SimpleWallet {
      * Anonymous function for when contract recieves funds or is called
      * without any funds and without function
      */
-    function() {
+    function() payable {
 
       if ( msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender] == true) ) {
         Deposit(msg.sender, msg.value);
