@@ -23,4 +23,25 @@ contract('SimpleWallet', function(accounts){
     });
   });
 
+  it('adding accounts to the allowed list', function(){
+
+    var myContract = SimpleWallet.deployed();
+
+    return myContract.isAllowedToSend.call(accounts[1]).then(function(isAllowed){
+      assert.equal(isAllowed, false, 'The other account is allowed to send');
+    }).then(function(){
+      myContract.allowAddressToSendMoney(accounts[1]);
+    }).then(function(){
+      return myContract.isAllowedToSend.call(accounts[1]);
+    }).then(function(isAllowed){
+      assert.equal(true, isAllowed, 'The other account was not allowed to send');
+    }).then(function(){
+      myContract.disallowAddressToSendMoney(accounts[1]);
+    }).then(function(){
+      return myContract.isAllowedToSend.call(accounts[1]);
+    }).then(function(isAllowed){
+      assert.equal(false, isAllowed, 'The other account was allowed to send');
+    })
+  });
+
 });
