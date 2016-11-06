@@ -1,8 +1,8 @@
 /*global angular*/
 var app = angular.module('simpleEthWallet');
 
-app.controller("EventsCtrl", function($scope){
+app.controller("EventsCtrl", function($scope) {
 
-  $scope.myVar = "Events";
+    $scope.myVar = "Events";
 
 });

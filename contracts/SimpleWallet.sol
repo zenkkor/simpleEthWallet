@@ -5,15 +5,16 @@ contract SimpleWallet {
     address owner;
 
     struct WithdrawalStruct {
-      address to;
-      uint amount;
+    	address to;
+     	uint amount;
     }
 
     struct Senders {
-      bool allowed;
-      uint amount_sends;
-      mapping(uint => WithdrawalStruct) withdrawals;
+    	bool allowed;
+      	uint amount_sends;
+      	mapping(uint => WithdrawalStruct) withdrawals;
     }
+
 
     mapping(address => Senders) isAllowedToSendFundsMapping;
 
@@ -24,7 +25,7 @@ contract SimpleWallet {
      * Constructor
      */
     function SimpleWallet() {
-      owner = msg.sender;
+      	owner = msg.sender;
     }
 
     /**
@@ -33,12 +34,12 @@ contract SimpleWallet {
      */
     function() payable {
 
-      if ( hasWalletPermission() ) {
-        Deposit(msg.sender, msg.value);
-      }
-      else {
-        throw;
-      }
+    	if ( hasWalletPermission() ) {
+        	Deposit(msg.sender, msg.value);
+      	}
+      	else {
+	        throw;
+	      }
 
     }
 
@@ -50,25 +51,25 @@ contract SimpleWallet {
      */
     function sendFunds(uint amount, address receiver) returns (uint) {
 
-      if ( isAllowedToSend(msg.sender) )
-      {
+	      if ( isAllowedToSend(msg.sender) )
+	      {
 
-        if ( this.balance >= amount )
-        {
-          if ( !receiver.send(amount) ) {
-            throw;
-          }
+		        if ( this.balance >= amount )
+		        {
+		          	if ( !receiver.send(amount) ) {
+		            	throw;
+		          	}
 
-          Withdraw(msg.sender, amount, receiver);
+		          	Withdraw(msg.sender, amount, receiver);
 
-          isAllowedToSendFundsMapping[msg.sender].amount_sends++;
-          isAllowedToSendFundsMapping[msg.sender].withdrawals[isAllowedToSendFundsMapping[msg.sender].amount_sends].to = receiver;
-          isAllowedToSendFundsMapping[msg.sender].withdrawals[isAllowedToSendFundsMapping[msg.sender].amount_sends].amount = amount;
+		          	isAllowedToSendFundsMapping[msg.sender].amount_sends++;
+		          	isAllowedToSendFundsMapping[msg.sender].withdrawals[isAllowedToSendFundsMapping[msg.sender].amount_sends].to = receiver;
+		          	isAllowedToSendFundsMapping[msg.sender].withdrawals[isAllowedToSendFundsMapping[msg.sender].amount_sends].amount = amount;
 
-          return this.balance;
-        }
+		          	return this.balance;
+		        }
 
-      }
+	      }
 
     }
 
@@ -78,9 +79,9 @@ contract SimpleWallet {
      */
     function allowAddressToSendMoney(address _address) {
 
-      if ( msg.sender == owner ) {
-        isAllowedToSendFundsMapping[_address].allowed = true;
-      }
+	      if ( msg.sender == owner ) {
+	        	isAllowedToSendFundsMapping[_address].allowed = true;
+	      }
 
     }
 
@@ -90,9 +91,9 @@ contract SimpleWallet {
      */
     function disallowAddressToSendMoney(address _address) {
 
-      if ( msg.sender == owner) {
-        isAllowedToSendFundsMapping[_address].allowed = false;
-      }
+	      if ( msg.sender == owner) {
+	        	isAllowedToSendFundsMapping[_address].allowed = false;
+	      }
 
     }
 
@@ -101,7 +102,7 @@ contract SimpleWallet {
      * @return {Boolean}
      */
     function hasWalletPermission() private returns (bool){
-      return (msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender].allowed == true));
+      	return (msg.sender == owner || (isAllowedToSendFundsMapping[msg.sender].allowed == true));
     }
 
     /**
@@ -110,17 +111,17 @@ contract SimpleWallet {
      * @return {Boolean}
      */
     function isAllowedToSend(address _address) constant returns (bool) {
-      return isAllowedToSendFundsMapping[_address].allowed || (_address == owner);
+      	return isAllowedToSendFundsMapping[_address].allowed || (_address == owner);
     }
 
-    /**
-     * Kills the wallet, yo.
-     * Only allows this for the owner
-     */
-    function killWallet() {
-      if ( msg.sender == owner )
-        suicide(owner);
-    }
+	/**
+	 * Kills the wallet, yo.
+	 * Only allows this for the owner
+	 */
+	function killWallet() {
+	  	if ( msg.sender == owner )
+	    	suicide(owner);
+	}
 
 
 
