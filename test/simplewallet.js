@@ -44,4 +44,30 @@ contract('SimpleWallet', function(accounts){
     })
   });
 
+  it('should check Deposit Events', function(done){
+
+    var meta = SimpleWallet.deployed();
+    var event = meta.allEvents();
+
+    event.watch(function(error, result){
+      if (error) {
+        console.err(error);
+      }
+      else
+      {
+        // Check if the events are correct
+        assert.equal(result.event, "Deposit");
+        assert.equal(web3.fromWei(result.args.amount.valueOf(), "ether"), 1);
+        assert.equal(result.args._sender.valueOf(), web3.eth.accounts[0]);
+        event.stopWatching();
+        done();
+      }
+    });
+
+    // Send some ether
+    web3.eth.sendTransaction({from:web3.eth.accounts[0], to:meta.address, value: web3.toWei(1, "ether")})
+
+
+  });
+
 });
