@@ -1,0 +1,12 @@
+<strong>Balance: </strong> {{balance}}
+<br>
+<strong>BalanceInEther:</strong> {{balanceInEther}}
+
+
+<div>
+	<h1>Withdrawals:</h1>
+	<div ng-repeat="withdrawal in withdrawals">
+	To: {{withdrawal[0]}}
+	Amount in Ether: {{withdrawal[1]}}
+	</li>
+</ul>
